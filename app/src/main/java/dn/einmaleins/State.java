@@ -9,8 +9,15 @@ public class State<T> {
     public Class<T> clazz;
     public Map<String, Object> props = new HashMap<>();
 
-    public State(String id, Class<T> clazz) {
-        this.id = id;
-        this.clazz = clazz;
+    public static <T> State create(String id, Class<T> clazz) {
+        State s = new State();
+        s.id = id;
+        s.clazz = clazz;
+        return s;
+    }
+
+    public State with(String methodName, Object value) {
+        props.put(methodName, value);
+        return this;
     }
 }

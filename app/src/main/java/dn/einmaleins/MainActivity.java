@@ -31,30 +31,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void applyNewStates(List<State> newStates) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         for (State state : newStates) {
             applyState(state);
         }
     }
 
-    private <T extends View> void applyState(State state) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        String id = state.id;
-        T genericView = findViewById(R.id.class.getField(id).getInt(null));
-        Map<String, Object> bla = state.props;
-        for (Map.Entry<String, Object> entry : bla.entrySet()) {
-            String methodName = entry.getKey();
-            Object value = entry.getValue();
-            Class<?> valueClass = null;
-            if (value instanceof String) {
-                valueClass = CharSequence.class;
-            } else if (value instanceof Integer){
-                valueClass = int.class;
-            } else {
-                throw new RuntimeException("Unexpected type of value: " + value.getClass());
+    private <T extends View> void applyState(State state) {
+        try {
+            T genericView = findViewById(R.id.class.getField(state.id).getInt(null));
+            Map<String, Object> viewProperties = state.props;
+            for (Map.Entry<String, Object> entry : viewProperties.entrySet()) {
+                String methodName = entry.getKey();
+                Object value = entry.getValue();
+                Class<T> genericViewClass = state.clazz;
+                Class<?> valueClass;
+                if (value instanceof String) {
+                    valueClass = CharSequence.class;
+                } else if (value instanceof Integer) {
+                    valueClass = int.class;
+                } else {
+                    throw new RuntimeException("Unexpected type of value: " + value.getClass());
+                }
+                genericViewClass.getMethod(methodName, valueClass).invoke(genericView, value);
             }
-            state.clazz.getMethod(methodName, valueClass).invoke(genericView, value);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
 }
