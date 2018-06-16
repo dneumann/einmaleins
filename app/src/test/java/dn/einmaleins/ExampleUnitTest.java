@@ -1,6 +1,10 @@
 package dn.einmaleins;
 
+import android.util.Log;
+
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +16,9 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        StateChanger changer = new StateChanger();
+        List<State> states = changer.generateExercise();
+        State first = states.get(0);
+        //assertEquals("bla", first.clazz.getMethod("setText", ""));
     }
 }

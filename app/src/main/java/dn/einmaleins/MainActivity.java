@@ -6,9 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Calculator calc = new Calculator();
+    private StateChanger stateChanger = new StateChanger();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,29 +20,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void generateExercise(View view) {
-        calc.createNewExercise();
-        String exerciseString = calc.getMultiExercise();
-        TextView tv = findViewById(R.id.textView);
-        tv.setText(exerciseString);
-
-        Button buttonToHide = findViewById(R.id.button);
-        Button buttonToShow = findViewById(R.id.button2);
-
-        buttonToHide.setVisibility(View.INVISIBLE);
-        buttonToShow.setVisibility(View.VISIBLE);
+    public void generateExercise(View view) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        List<State> newStates = stateChanger.generateExercise();
+        applyNewStates(newStates);
     }
 
-    public void showAnswer(View view) {
-        String answerString = calc.getMultiAnswer() + " " + calc.getHint();
-        TextView tv = findViewById(R.id.textView2);
-        tv.setText(answerString);
-
-        Button buttonToHide = findViewById(R.id.button2);
-        Button buttonToShow = findViewById(R.id.button);
-
-        buttonToHide.setVisibility(View.INVISIBLE);
-        buttonToShow.setVisibility(View.VISIBLE);
-
+    public void showAnswer(View view) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        List<State> newStates = stateChanger.showAnswer();
+        applyNewStates(newStates);
     }
+
+
+
+    private void applyNewStates(List<State> newStates) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        for (State state : newStates) {
+            applyState(state);
+        }
+    }
+
+    private <T extends View> void applyState(State state) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        String id = state.id;
+        T genericView = findViewById(R.id.class.getField(id).getInt(null));
+        Map<String, Object> bla = state.props;
+        for (Map.Entry<String, Object> entry : bla.entrySet()) {
+            String methodName = entry.getKey();
+            Object value = entry.getValue();
+            Class<?> valueClass = null;
+            if (value instanceof String) {
+                valueClass = CharSequence.class;
+            } else if (value instanceof Integer){
+                valueClass = int.class;
+            } else {
+                throw new RuntimeException("Unexpected type of value: " + value.getClass());
+            }
+            state.clazz.getMethod(methodName, valueClass).invoke(genericView, value);
+        }
+    }
+
 }
