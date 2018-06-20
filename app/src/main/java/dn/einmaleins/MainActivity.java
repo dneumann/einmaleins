@@ -1,8 +1,11 @@
 package dn.einmaleins;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -24,7 +27,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showAnswer(View view) {
-        List<State> newStates = stateChanger.showAnswer();
+        EditText edText = findViewById(R.id.editText_enteredAnswer);
+        String enteredAnswer = edText.getText().toString();
+
+        List<State> newStates = stateChanger.showAnswer(enteredAnswer);
         applyNewStates(newStates);
     }
 

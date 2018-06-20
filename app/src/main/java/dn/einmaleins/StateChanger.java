@@ -1,7 +1,9 @@
 package dn.einmaleins;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,19 +23,32 @@ public class StateChanger {
         State textView2 = State.create("textView_answer", TextView.class)
                 .with("setText", "");
 
+        State editText = State.create("editText_enteredAnswer", EditText.class)
+                .with("setVisibility", View.VISIBLE)
+                .with("setText", "")
+                .with("setTextColor", Color.BLACK);
+
         State button = State.create("button_newExercise", Button.class)
                 .with("setVisibility", View.INVISIBLE);
 
         State button2 = State.create("button_showAnswer", Button.class)
                 .with("setVisibility", View.VISIBLE);
 
-        return list(textView, textView2, button, button2);
+        return list(textView, textView2, editText, button, button2);
     }
 
-    public List<State> showAnswer() {
-        CharSequence text = calc.getMultiAnswer() + " -> " + calc.getHint();
+    public List<State> showAnswer(String enteredAnswer) {
+        String correctAnswer = calc.getMultiAnswer();
+
+        State editText = State.create("editText_enteredAnswer", EditText.class);
+        if (correctAnswer.equals(enteredAnswer)) {
+            editText.with("setTextColor", Color.GREEN);
+        } else {
+            editText.with("setTextColor", Color.RED);
+        }
+
         State textView = State.create("textView_answer", TextView.class)
-                .with("setText", text);
+                .with("setText", correctAnswer + " -> " + calc.getHint());
 
         State button2 = State.create("button_showAnswer", Button.class)
                 .with("setVisibility", View.INVISIBLE);
@@ -41,7 +56,7 @@ public class StateChanger {
         State button = State.create("button_newExercise", Button.class)
                 .with("setVisibility", View.VISIBLE);
 
-        return list(textView, button, button2);
+        return list(editText, textView, button, button2);
     }
 
 
