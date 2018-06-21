@@ -64,4 +64,10 @@ public class StateChanger {
         return new ArrayList<>(Arrays.asList(states));
     }
 
+
+    // for unit testing
+    void setCalculator(Calculator newCalc) {
+        calc = newCalc;
+    }
+
 }
