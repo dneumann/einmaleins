@@ -1,9 +1,7 @@
 package dn.einmaleins;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class State<T> {
 
@@ -21,6 +19,15 @@ public class State<T> {
     public State with(String methodName, Object value) {
         props.add(new Property(methodName, value));
         return this;
+    }
+
+    public Object getProp(String key) {
+        for (Property prop : props) {
+            if (prop.key.equals(key)) {
+                return prop.value;
+            }
+        }
+        return null;
     }
 
     public static class Property {
