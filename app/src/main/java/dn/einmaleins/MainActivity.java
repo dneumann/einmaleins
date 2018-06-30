@@ -18,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        generateExercise(null);
+    }
+
     public void generateExercise(View view) {
         List<State> newStates = stateChanger.generateExercise();
         applyNewStates(newStates);
