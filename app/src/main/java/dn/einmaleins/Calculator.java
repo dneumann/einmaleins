@@ -8,37 +8,36 @@ public class Calculator {
 
 	private int number1;
 	private int number2;
-	private Map<String, String> hints = new HashMap<>();
+	private Map<String, Integer> hints = new HashMap<>();
 	
 	public Calculator() {
-		hints.put("unknown", "");
-		hints.put("3*4", "regnet");
-		hints.put("3*5", "coole Jungs");
-		hints.put("3*6", "Platschefüße");
-		hints.put("3*7", "Gras");
-		hints.put("3*8", "grün, Alien");
-		hints.put("3*9", "heilig");
-		hints.put("4*4", "Biene");
-		hints.put("4*5", "hinter Gittern");
-		hints.put("4*6", "für den Klecks");
-		hints.put("4*7", "für die Lieben");
-		hints.put("4*8", "für die Schlacht");
-		hints.put("4*9", "für \"Moin moin\"");
-		hints.put("5*5", "5 5 5");
-		hints.put("5*6", "Ping, Licht");
-		hints.put("5*7", "Pimmelbus");
-		hints.put("5*8", "unter Strom");
-		hints.put("5*9", "Weihnachtsmänner");
-		hints.put("6*6", "6 6 6");
-		hints.put("6*7", "6 Tage zu Hause geblieben");
-		hints.put("6*8", "6 Eier gebracht");
-		hints.put("6*9", "6 Farben zum Freuen");
-		hints.put("7*7", "Geometrie");
-		hints.put("7*8", "sie hat's gut gemacht");
-		hints.put("7*9", "sie muss vor Angst heulen");
-		hints.put("8*8", "Pickel");
-		hints.put("8*9", "König, Säge");
-		hints.put("9*9", "Zunge, Pisse");
+		hints.put("3*4", R.string.answer3x4);
+		hints.put("3*5", R.string.answer3x5);
+		hints.put("3*6", R.string.answer3x6);
+		hints.put("3*7", R.string.answer3x7);
+		hints.put("3*8", R.string.answer3x8);
+		hints.put("3*9", R.string.answer3x9);
+		hints.put("4*4", R.string.answer4x4);
+		hints.put("4*5", R.string.answer4x5);
+		hints.put("4*6", R.string.answer4x6);
+		hints.put("4*7", R.string.answer4x7);
+		hints.put("4*8", R.string.answer4x8);
+		hints.put("4*9", R.string.answer4x9);
+		hints.put("5*5", R.string.answer5x5);
+		hints.put("5*6", R.string.answer5x6);
+		hints.put("5*7", R.string.answer5x7);
+		hints.put("5*8", R.string.answer5x8);
+		hints.put("5*9", R.string.answer5x9);
+		hints.put("6*6", R.string.answer6x6);
+		hints.put("6*7", R.string.answer6x7);
+		hints.put("6*8", R.string.answer6x8);
+		hints.put("6*9", R.string.answer6x9);
+		hints.put("7*7", R.string.answer7x7);
+		hints.put("7*8", R.string.answer7x8);
+		hints.put("7*9", R.string.answer7x9);
+		hints.put("8*8", R.string.answer8x8);
+		hints.put("8*9", R.string.answer8x9);
+		hints.put("9*9", R.string.answer9x9);
 	}
 
 	public void createNewExercise() {
@@ -61,16 +60,16 @@ public class Calculator {
 		return "" + number1 * number2;
 	}
 
-	public String getHint() {
+	public int getHint() {
 		String hintKey = "";
 		if (number1 <= number2) {
 			hintKey = number1 + "*" + number2;
 		} else {
 			hintKey = number2 + "*" + number1;
 		}
-		String hint = hints.get(hintKey);
+		Integer hint = hints.get(hintKey);
 		if (hint == null) {
-			return "";
+			return 0;
 		}
 		return hint;
 	}

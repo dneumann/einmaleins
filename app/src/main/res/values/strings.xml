@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">Armans Einmaleins</string>
+    <string name="newExercise">Neue Aufgabe</string>
+    <string name="answer">Antwort</string>
+    <string name="answer3x4">12 -> regnet</string>
+    <string name="answer3x5">15 -> coole Jungs</string>
+    <string name="answer3x6">18 -> Platschefüße</string>
+    <string name="answer3x7">21 -> Gras</string>
+    <string name="answer3x8">24 -> grün, Alien</string>
+    <string name="answer3x9">27 -> heilig</string>
+    <string name="answer4x4">16 -> Biene</string>
+    <string name="answer4x5">20 -> hinter Gittern</string>
+    <string name="answer4x6">24 -> für den Klecks</string>
+    <string name="answer4x7">28 -> für die Lieben</string>
+    <string name="answer4x8">32 -> für die Schlacht</string>
+    <string name="answer4x9">36 -> für "Moin moin"</string>
+    <string name="answer5x5">25 -> 5 5 5</string>
+    <string name="answer5x6">30 -> Ping, Licht</string>
+    <string name="answer5x7">35 -> Pimmelbus</string>
+    <string name="answer5x8">40 -> unter Strom</string>
+    <string name="answer5x9">45 -> Weihnachtsmänner</string>
+    <string name="answer6x6">36 -> 6 6 6</string>
+    <string name="answer6x7">42 -> 6 Tage zu Hause geblieben</string>
+    <string name="answer6x8">48 -> 6 Eier gebracht</string>
+    <string name="answer6x9">54 -> 6 Farben zum Freuen</string>
+    <string name="answer7x7">49 -> Geometrie</string>
+    <string name="answer7x8">56 -> sie hat\'s gut gemacht</string>
+    <string name="answer7x9">63 -> sie muss vor Angst heulen</string>
+    <string name="answer8x8">64 -> Pickel</string>
+    <string name="answer8x9">72 -> König, Säge</string>
+    <string name="answer9x9">81 -> Zunge, Pisse</string>
 </resources>

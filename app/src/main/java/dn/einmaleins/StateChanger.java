@@ -52,7 +52,7 @@ public class StateChanger {
         }
 
         State textView = State.create("textView_answer", TextView.class)
-                .with("setText", correctAnswer + " -> " + calc.getHint());
+                .with("setText", calc.getHint());
 
         State button2 = State.create("button_showAnswer", Button.class)
                 .with("setVisibility", View.INVISIBLE);
