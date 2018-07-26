@@ -25,7 +25,7 @@
         android:id="@+id/button_newExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="generateExercise"
+        android:onClick="showExercise"
         android:text="Neue Aufgabe"
         android:visibility="visible"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_showAnswer"
@@ -72,5 +72,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_enteredAnswer" />
+
+    <ImageView
+        android:id="@+id/imageView_drawnAnswer"
+        android:layout_width="357dp"
+        android:layout_height="155dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.67" />
 
 </android.support.constraint.ConstraintLayout>

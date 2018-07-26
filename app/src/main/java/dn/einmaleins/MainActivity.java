@@ -1,8 +1,10 @@
 package dn.einmaleins;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,32 +13,50 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private StateChanger stateChanger = new StateChanger();
+    private EditText answerEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        answerEditText = findViewById(R.id.editText_enteredAnswer);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        generateExercise(null);
+        generateNewExercise();
+        showKeyboard();
     }
 
-    public void generateExercise(View view) {
+    private void showKeyboard() {
+        answerEditText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(answerEditText.getWindowToken(), 0);
+    }
+
+    private void generateNewExercise() {
         List<State> newStates = stateChanger.generateExercise();
         applyNewStates(newStates);
     }
 
+    public void showExercise(View view) {
+        generateNewExercise();
+        showKeyboard();
+    }
+
     public void showAnswer(View view) {
-        EditText edText = findViewById(R.id.editText_enteredAnswer);
-        String enteredAnswer = edText.getText().toString();
+        String enteredAnswer = answerEditText.getText().toString();
 
         List<State> newStates = stateChanger.showAnswer(enteredAnswer);
         applyNewStates(newStates);
+        hideKeyboard();
     }
-
 
     private void applyNewStates(List<State> newStates) {
         for (State state : newStates) {

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,7 +35,10 @@ public class StateChanger {
         State button2 = State.create("button_showAnswer", Button.class)
                 .with("setVisibility", View.VISIBLE);
 
-        return list(textView, textView2, editText, button, button2);
+        State image = State.create("imageView_drawnAnswer", ImageView.class)
+                .with("setVisibility", View.INVISIBLE);
+
+        return list(textView, textView2, editText, button, button2, image);
     }
 
     public List<State> showAnswer(String enteredAnswer) {
@@ -56,7 +60,12 @@ public class StateChanger {
         State button = State.create("button_newExercise", Button.class)
                 .with("setVisibility", View.VISIBLE);
 
-        return list(editText, textView, button, button2);
+        int imageSrc = R.drawable.image6x9;
+        State image = State.create("imageView_drawnAnswer", ImageView.class)
+                .with("setVisibility", View.VISIBLE)
+                .with("setImageResource", imageSrc);
+
+        return list(editText, textView, button, button2, image);
     }
 
 
