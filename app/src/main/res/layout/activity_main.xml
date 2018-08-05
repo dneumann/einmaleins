@@ -10,13 +10,13 @@
     <TextView
         android:id="@+id/textView_exercise"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="87dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="13dp"
         android:layout_marginEnd="41dp"
         android:layout_marginStart="39dp"
         android:layout_marginTop="25dp"
         android:textAppearance="@android:style/TextAppearance.Large"
-        app:layout_constraintBottom_toTopOf="@+id/button_showAnswer"
+        app:layout_constraintBottom_toTopOf="@+id/textView_incorrect"
         app:layout_constraintEnd_toStartOf="@+id/editText_enteredAnswer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,27 +25,26 @@
         android:id="@+id/button_newExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="106dp"
+        android:layout_marginBottom="57dp"
         android:onClick="showExercise"
         android:text="@string/newExercise"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_drawnAnswer" />
 
     <EditText
         android:id="@+id/editText_enteredAnswer"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="134dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="number"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/textView_answer"
+        app:layout_constraintBottom_toTopOf="@+id/button_showAnswer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_exercise"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,37 +53,58 @@
         android:id="@+id/button_showAnswer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="305dp"
+        android:layout_marginBottom="257dp"
         android:onClick="showAnswer"
         android:text="@string/answer"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_exercise" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_enteredAnswer" />
 
     <TextView
         android:id="@+id/textView_answer"
         android:layout_width="306dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="21dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="26dp"
         android:textAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintBottom_toTopOf="@+id/imageView_drawnAnswer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_exercise" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_incorrect" />
 
     <ImageView
         android:id="@+id/imageView_drawnAnswer"
         android:layout_width="357dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="43dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/button_newExercise"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_answer" />
+
+    <TextView
+        android:id="@+id/textView_correct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/correct"
+        android:textColor="@android:color/holo_green_dark"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView_incorrect"
+        app:layout_constraintStart_toStartOf="@+id/editText_enteredAnswer" />
+
+    <TextView
+        android:id="@+id/textView_incorrect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:text="@string/incorrect"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textView_answer"
+        app:layout_constraintStart_toStartOf="@+id/textView_correct"
+        app:layout_constraintTop_toBottomOf="@+id/textView_exercise" />
 
 </android.support.constraint.ConstraintLayout>

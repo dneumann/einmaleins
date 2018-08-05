@@ -38,17 +38,26 @@ public class StateChanger {
         State image = State.create("imageView_drawnAnswer", ImageView.class)
                 .with("setVisibility", View.INVISIBLE);
 
-        return list(textView, textView2, editText, button, button2, image);
+        State correctness = State.create("textView_correct", TextView.class)
+                .with("setVisibility", View.INVISIBLE);
+        State incorrectness = State.create("textView_incorrect", TextView.class)
+                .with("setVisibility", View.INVISIBLE);;
+
+        return list(textView, textView2, editText, button, button2, image, correctness, incorrectness);
     }
 
     public List<State> showAnswer(String enteredAnswer) {
         String correctAnswer = calc.getMultiAnswer();
 
         State editText = State.create("editText_enteredAnswer", EditText.class);
+        State correctness = State.create("textView_correct", TextView.class);
+        State incorrectness = State.create("textView_incorrect", TextView.class);
         if (correctAnswer.equals(enteredAnswer)) {
             editText.with("setTextColor", Color.GREEN);
+            correctness.with("setVisibility", View.VISIBLE);
         } else {
             editText.with("setTextColor", Color.RED);
+            incorrectness.with("setVisibility", View.VISIBLE);
         }
 
         State textView = State.create("textView_answer", TextView.class)
@@ -64,7 +73,7 @@ public class StateChanger {
                 .with("setVisibility", View.VISIBLE)
                 .with("setImageResource", calc.getAnswerImage());
 
-        return list(editText, textView, button, button2, image);
+        return list(editText, textView, button, button2, image, correctness, incorrectness);
     }
 
 
