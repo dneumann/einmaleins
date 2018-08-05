@@ -60,10 +60,9 @@ public class StateChanger {
         State button = State.create("button_newExercise", Button.class)
                 .with("setVisibility", View.VISIBLE);
 
-        int imageSrc = R.drawable.image6x9;
         State image = State.create("imageView_drawnAnswer", ImageView.class)
                 .with("setVisibility", View.VISIBLE)
-                .with("setImageResource", imageSrc);
+                .with("setImageResource", calc.getAnswerImage());
 
         return list(editText, textView, button, button2, image);
     }

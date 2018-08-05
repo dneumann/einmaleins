@@ -24,7 +24,7 @@ public class StateChangerTest {
     public void generateExercise_numberOfStates() throws Exception {
         List<State> states = stateChanger.generateExercise();
 
-        assertEquals(5, states.size());
+        assertEquals(6, states.size());
     }
 
     @Test
