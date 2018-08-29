@@ -41,7 +41,7 @@ public class StateChanger {
         State correctness = State.create("textView_correct", TextView.class)
                 .with("setVisibility", View.INVISIBLE);
         State incorrectness = State.create("textView_incorrect", TextView.class)
-                .with("setVisibility", View.INVISIBLE);;
+                .with("setVisibility", View.INVISIBLE);
 
         return list(textView, textView2, editText, button, button2, image, correctness, incorrectness);
     }
