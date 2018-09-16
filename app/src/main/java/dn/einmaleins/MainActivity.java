@@ -25,8 +25,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        generateNewExercise();
+        generateAndShowNewExercise();
         showKeyboard();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String bla = extras.getString("testDifficulty");
+            throw new RuntimeException(bla);
+        }
+    }
+
+    public void showExercise(View view) {
+        generateAndShowNewExercise();
+        showKeyboard();
+    }
+
+    public void showAnswer(View view) {
+        String enteredAnswer = answerEditText.getText().toString();
+
+        List<State> newStates = stateChanger.showAnswer(enteredAnswer);
+        applyNewStates(newStates);
+        hideKeyboard();
+    }
+
+
+
+    private void generateAndShowNewExercise() {
+        List<State> newStates = stateChanger.generateExercise();
+        applyNewStates(newStates);
     }
 
     private void showKeyboard() {
@@ -38,24 +64,6 @@ public class MainActivity extends AppCompatActivity {
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(answerEditText.getWindowToken(), 0);
-    }
-
-    private void generateNewExercise() {
-        List<State> newStates = stateChanger.generateExercise();
-        applyNewStates(newStates);
-    }
-
-    public void showExercise(View view) {
-        generateNewExercise();
-        showKeyboard();
-    }
-
-    public void showAnswer(View view) {
-        String enteredAnswer = answerEditText.getText().toString();
-
-        List<State> newStates = stateChanger.showAnswer(enteredAnswer);
-        applyNewStates(newStates);
-        hideKeyboard();
     }
 
     private void applyNewStates(List<State> newStates) {
