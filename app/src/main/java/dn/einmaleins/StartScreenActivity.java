@@ -13,8 +13,12 @@ public class StartScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start_screen);
     }
 
-    public void startGame(View view) {
+    public void startPractice(View view) {
         Intent startsMain = new Intent(this, MainActivity.class);
         startActivity(startsMain);
+    }
+
+    public void startEasyTest(View view) {
+
     }
 }
