@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -74,6 +75,12 @@ public class StateChanger {
                 .with("setImageResource", calc.getAnswerImage());
 
         return list(editText, textView, button, button2, image, correctness, incorrectness);
+    }
+
+    public List<State> computeSecondsLeft(long millisLeft, int wrongAnswers, String testDifficulty) {
+        State progressBar = State.create("progressBar", ProgressBar.class)
+                .with("setProgress", (int) millisLeft/1000);
+        return list(progressBar);
     }
 
 

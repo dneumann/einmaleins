@@ -7,14 +7,30 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:max="100"
+        android:progress="50"
+        app:layout_constraintBottom_toTopOf="@+id/editText_enteredAnswer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView_exercise"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="28dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="66dp"
         android:textAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintBottom_toTopOf="@+id/textView_answer"
         app:layout_constraintEnd_toStartOf="@+id/editText_enteredAnswer"
@@ -25,7 +41,7 @@
         android:id="@+id/button_newExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="24dp"
         android:onClick="showExercise"
         android:text="@string/newExercise"
         android:visibility="visible"

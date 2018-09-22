@@ -1,6 +1,7 @@
 package dn.einmaleins;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private StateChanger stateChanger = new StateChanger();
+    private StateChanger stateChangerForTimer = new StateChanger();
     private EditText answerEditText;
+    private String testDifficulty = "";
+    private int wrongAnswers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,18 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String bla = extras.getString("testDifficulty");
-            throw new RuntimeException(bla);
+            CountDownTimer timer = new CountDownTimer(50000, 1000) {
+                @Override
+                public void onTick(long millisLeft) {
+                    List<State> newStates = stateChangerForTimer.computeSecondsLeft(millisLeft, wrongAnswers, testDifficulty);
+                    applyNewStates(newStates);
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            }.start();
         }
     }
 
