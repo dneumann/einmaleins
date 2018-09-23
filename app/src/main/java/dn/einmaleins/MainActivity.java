@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private StateChanger stateChanger = new StateChanger();
     private StateChanger stateChangerForTimer = new StateChanger();
     private EditText answerEditText;
-    private String testDifficulty = "";
     private int wrongAnswers = 0;
+    private int correctAnswers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +34,32 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String bla = extras.getString("testDifficulty");
-            CountDownTimer timer = new CountDownTimer(50000, 1000) {
+            final String testDifficulty = extras.getString("testDifficulty");
+            Thread timer = new Thread(new Runnable() {
                 @Override
-                public void onTick(long millisLeft) {
-                    List<State> newStates = stateChangerForTimer.computeSecondsLeft(millisLeft, wrongAnswers, testDifficulty);
-                    applyNewStates(newStates);
+                public void run() {
+                    long startTime = System.currentTimeMillis();
+                    while (true) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        long millisLeft = 50000L - (System.currentTimeMillis() - startTime);
+                        List<State> newStates = stateChangerForTimer
+                                .computeSecondsLeft(millisLeft, correctAnswers, wrongAnswers, testDifficulty);
+                        int secondsLeft = (int)newStates.get(0).getProp("setProgress");
+                        if (secondsLeft <= 0) {
+                            throw new RuntimeException("Time up: " + secondsLeft);
+                        } else if (secondsLeft >= 100) {
+                            throw new RuntimeException("Woooohoooo: " + secondsLeft);
+                        } else {
+                            applyNewStates(newStates);
+                        }
+                    }
                 }
-
-                @Override
-                public void onFinish() {
-
-                }
-            }.start();
+            });
+            timer.start();
         }
     }
 
@@ -59,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
         String enteredAnswer = answerEditText.getText().toString();
 
         List<State> newStates = stateChanger.showAnswer(enteredAnswer);
+        int correctVisibility = (int) getState(newStates, "textView_correct").getProp("setVisibility");
+        if (correctVisibility == View.VISIBLE)
+            correctAnswers++;
+        else
+            wrongAnswers++;
         applyNewStates(newStates);
         hideKeyboard();
     }
@@ -79,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(answerEditText.getWindowToken(), 0);
+    }
+
+    private State getState(List<State> states, String viewId) {
+        for (State s : states) {
+            if (s.id.equals(viewId))
+                return s;
+        }
+        return null;
     }
 
     private void applyNewStates(List<State> newStates) {

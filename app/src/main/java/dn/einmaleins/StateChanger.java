@@ -59,6 +59,7 @@ public class StateChanger {
         } else {
             editText.with("setTextColor", Color.RED);
             incorrectness.with("setVisibility", View.VISIBLE);
+            correctness.with("setVisibility", View.INVISIBLE);
         }
 
         State textView = State.create("textView_answer", TextView.class)
@@ -77,9 +78,10 @@ public class StateChanger {
         return list(editText, textView, button, button2, image, correctness, incorrectness);
     }
 
-    public List<State> computeSecondsLeft(long millisLeft, int wrongAnswers, String testDifficulty) {
+    public List<State> computeSecondsLeft(long millisLeft, int correctAnswers, int wrongAnswers, String testDifficulty) {
+        int secondsLeft = (int) millisLeft / 1000 + correctAnswers * 10 - wrongAnswers * 10;
         State progressBar = State.create("progressBar", ProgressBar.class)
-                .with("setProgress", (int) millisLeft/1000);
+                .with("setProgress", secondsLeft);
         return list(progressBar);
     }
 
