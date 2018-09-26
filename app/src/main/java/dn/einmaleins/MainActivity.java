@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText answerEditText;
     private int wrongAnswers = 0;
     private int correctAnswers = 0;
+    private boolean progressTimerRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
             Thread timer = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    progressTimerRunning = true;
                     long startTime = System.currentTimeMillis();
-                    while (true) {
+                    while (progressTimerRunning) {
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
@@ -61,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
             });
             timer.start();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        progressTimerRunning = false;
     }
 
     public void showExercise(View view) {
