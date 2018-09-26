@@ -81,7 +81,8 @@ public class StateChanger {
     public List<State> computeSecondsLeft(long millisLeft, int correctAnswers, int wrongAnswers, String testDifficulty) {
         int secondsLeft = (int) millisLeft / 1000 + correctAnswers * 10 - wrongAnswers * 10;
         State progressBar = State.create("progressBar", ProgressBar.class)
-                .with("setProgress", secondsLeft);
+                .with("setProgress", secondsLeft)
+                .with("setVisibility", View.VISIBLE);
         return list(progressBar);
     }
 
