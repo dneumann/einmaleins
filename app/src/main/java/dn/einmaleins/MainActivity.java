@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.lang.reflect.InvocationTargetException;
@@ -64,37 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             timer.start();
-//            Thread buttonTimer = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                        int i = 0;
-//                    while (true) {
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        List<State> newStatesThread = stateChangerForButtonTimer
-//                                .computeButtonSecondsLeft(i, testDifficulty);
-//                        String secondsLeft = (String)newStatesThread.get(0).getProp("setText");
-//                        if (secondsLeft.equals("OK 0")) {
-//                            throw new RuntimeException("Button time up: " + secondsLeft);
-//                        } else {
-//                            System.out.println(secondsLeft);
-//                            applyNewStates(newStatesThread);
-//                        }
-//                        i++;
-//                    }
-//                        }
-//                    });
-//                }
-//            });
-//            buttonTimer.start();
         }
     }
 
@@ -129,17 +99,18 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             final String testDifficulty = extras.getString("testDifficulty");
-
-            buttonTimer = new CountDownTimer(7000, 1000) {
+            int buttonSeconds = stateChangerForButtonTimer.getButtonSeconds(testDifficulty);
+            buttonTimer = new CountDownTimer(buttonSeconds * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    List<State> newTimerStates = stateChangerForButtonTimer.computeButtonSecondsLeft((int)millisUntilFinished/1000, testDifficulty);
+                    List<State> newTimerStates = stateChangerForButtonTimer.computeButtonSecondsLeft((int)millisUntilFinished/1000);
                     applyNewStates(newTimerStates);
                 }
 
                 @Override
                 public void onFinish() {
-                    throw new RuntimeException("Button time up!");
+                    Button b = findViewById(R.id.button_showAnswer);
+                    b.performClick();
                 }
             };
             buttonTimer.start();

@@ -10,11 +10,41 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StateChanger {
 
     private Calculator calc = new Calculator();
+
+    private Map<String, TestDifficulty> difficulties = new HashMap<>();
+    public StateChanger() {
+        difficulties.put("easy", new TestDifficulty(10, 10, 10));
+        difficulties.put("normal", new TestDifficulty(7, 7, 10));
+        difficulties.put("hard", new TestDifficulty(5, 5, 10));
+    }
+
+    private class TestDifficulty {
+        public int buttonSeconds;
+        public int correctAnswerSeconds;
+        public int wrongAnswerSeconds;
+        public TestDifficulty(int b, int c, int w) {
+            buttonSeconds = b;
+            correctAnswerSeconds = c;
+            wrongAnswerSeconds = w;
+        }
+    }
+
+    public int getButtonSeconds(String testDifficulty) {
+        return difficulties.get(testDifficulty).buttonSeconds;
+    }
+    private int getCorrectAnswerSeconds(String testDifficulty) {
+        return difficulties.get(testDifficulty).correctAnswerSeconds;
+    }
+    private int getWrongAnswerSeconds(String testDifficulty) {
+        return difficulties.get(testDifficulty).wrongAnswerSeconds;
+    }
 
     public List<State> generateExercise() {
         calc.createNewExercise();
@@ -79,17 +109,17 @@ public class StateChanger {
     }
 
     public List<State> computeSecondsLeft(long millisLeft, int correctAnswers, int wrongAnswers, String testDifficulty) {
-        int secondsLeft = (int) millisLeft / 1000 + correctAnswers * 10 - wrongAnswers * 10;
+        int correctSeconds = getCorrectAnswerSeconds(testDifficulty);
+        int wrongSeconds = getWrongAnswerSeconds(testDifficulty);
+        int secondsLeft = (int) millisLeft / 1000 + correctAnswers * correctSeconds - wrongAnswers * wrongSeconds;
         State progressBar = State.create("progressBar", ProgressBar.class)
                 .with("setProgress", secondsLeft);
-                //.with("setVisibility", View.VISIBLE);
         return list(progressBar);
     }
 
-    public List<State> computeButtonSecondsLeft(int secondsPassed, String testDifficulty) {
-        int secondsLeft = secondsPassed;
+    public List<State> computeButtonSecondsLeft(int secondsLeft) {
         State okButton = State.create("button_showAnswer", TextView.class)
-                .with("setText", "OK " + secondsLeft);
+                .with("setText", "Antwort " + secondsLeft);
         return list(okButton);
     }
 

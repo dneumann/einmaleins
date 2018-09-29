@@ -19,8 +19,18 @@ public class StartScreenActivity extends AppCompatActivity {
     }
 
     public void startEasyTest(View view) {
+        startTest("easy");
+    }
+    public void startNormalTest(View view) {
+        startTest("normal");
+    }
+    public void startHardTest(View view) {
+        startTest("hard");
+    }
+
+    private void startTest(String difficulty) {
         Intent startsMain = new Intent(this, MainActivity.class);
-        startsMain.putExtra("testDifficulty", "easy");
+        startsMain.putExtra("testDifficulty", difficulty);
         startActivity(startsMain);
     }
 }
