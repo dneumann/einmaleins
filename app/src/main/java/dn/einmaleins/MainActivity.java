@@ -15,10 +15,12 @@ public class MainActivity extends AppCompatActivity {
 
     private StateChanger stateChanger = new StateChanger();
     private StateChanger stateChangerForTimer = new StateChanger();
+    private StateChanger stateChangerForButtonTimer = new StateChanger();
     private EditText answerEditText;
     private int wrongAnswers = 0;
     private int correctAnswers = 0;
     private boolean progressTimerRunning = false;
+    private CountDownTimer buttonTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             timer.start();
+//            Thread buttonTimer = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                        int i = 0;
+//                    while (true) {
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        List<State> newStatesThread = stateChangerForButtonTimer
+//                                .computeButtonSecondsLeft(i, testDifficulty);
+//                        String secondsLeft = (String)newStatesThread.get(0).getProp("setText");
+//                        if (secondsLeft.equals("OK 0")) {
+//                            throw new RuntimeException("Button time up: " + secondsLeft);
+//                        } else {
+//                            System.out.println(secondsLeft);
+//                            applyNewStates(newStatesThread);
+//                        }
+//                        i++;
+//                    }
+//                        }
+//                    });
+//                }
+//            });
+//            buttonTimer.start();
         }
     }
 
@@ -77,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showAnswer(View view) {
+        buttonTimer.cancel();
         String enteredAnswer = answerEditText.getText().toString();
 
         List<State> newStates = stateChanger.showAnswer(enteredAnswer);
@@ -92,6 +126,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void generateAndShowNewExercise() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            final String testDifficulty = extras.getString("testDifficulty");
+
+            buttonTimer = new CountDownTimer(7000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    List<State> newTimerStates = stateChangerForButtonTimer.computeButtonSecondsLeft((int)millisUntilFinished/1000, testDifficulty);
+                    applyNewStates(newTimerStates);
+                }
+
+                @Override
+                public void onFinish() {
+                    throw new RuntimeException("Button time up!");
+                }
+            };
+            buttonTimer.start();
+        }
         List<State> newStates = stateChanger.generateExercise();
         applyNewStates(newStates);
     }
