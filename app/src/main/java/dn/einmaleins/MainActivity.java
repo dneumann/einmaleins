@@ -58,16 +58,11 @@ public class MainActivity extends AppCompatActivity {
                                 .computeSecondsLeft(millisLeft, correctAnswers, wrongAnswers, testDifficulty);
                         int secondsLeft = (int)newStates.get(0).getProp("setProgress");
                         if (secondsLeft <= 0) {
-                            Intent startsResults = new Intent(referenceToThis, ResultsActivity.class);
-                            startsResults.putExtra("gameWon", false);
-                            startsResults.putExtra("correctAnswers", correctAnswers);
-                            startsResults.putExtra("wrongAnswers", wrongAnswers);
-                            startsResults.putExtra("testDifficulty", testDifficulty);
-                            startsResults.putExtra("timePassed", System.currentTimeMillis() - startTime);
-                            startActivity(startsResults);
+                            goToResults(false, testDifficulty, startTime);
                             progressTimerRunning = false;
                         } else if (secondsLeft >= 100) {
-                            throw new RuntimeException("Woooohoooo: " + secondsLeft);
+                            goToResults(true, testDifficulty, startTime);
+                            progressTimerRunning = false;
                         } else {
                             viewChanger.applyNewStates(newStates, referenceToThis);
                         }
@@ -76,6 +71,16 @@ public class MainActivity extends AppCompatActivity {
             });
             timer.start();
         }
+    }
+
+    private void goToResults(boolean gameWon, String testDifficulty, long startTime) {
+        Intent startsResults = new Intent(this, ResultsActivity.class);
+        startsResults.putExtra("gameWon", gameWon);
+        startsResults.putExtra("correctAnswers", correctAnswers);
+        startsResults.putExtra("wrongAnswers", wrongAnswers);
+        startsResults.putExtra("testDifficulty", testDifficulty);
+        startsResults.putExtra("timePassed", System.currentTimeMillis() - startTime);
+        startActivity(startsResults);
     }
 
     @Override

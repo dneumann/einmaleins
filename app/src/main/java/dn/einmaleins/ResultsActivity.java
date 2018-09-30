@@ -31,8 +31,13 @@ public class ResultsActivity extends AppCompatActivity {
         List<State> newStates = stateChanger.showEndResults(gameWon, correct, wrong, timeMillis);
         viewChanger.applyNewStates(newStates, this);
 
-        MediaPlayer gameOver = MediaPlayer.create(this, R.raw.game_over);
-        gameOver.start();
+        if (!gameWon) {
+            MediaPlayer gameOver = MediaPlayer.create(this, R.raw.game_over);
+            gameOver.start();
+        } else if (gameWon && "easy".equals(testDifficulty)) {
+            MediaPlayer win = MediaPlayer.create(this, R.raw.win_easy);
+            win.start();
+        }
     }
 
 }
