@@ -1,6 +1,7 @@
 package dn.einmaleins;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,13 +35,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         generateAndShowNewExercise();
-        showKeyboard();
+        toggleKeyboard();
 
         Bundle extras = getIntent().getExtras();
         final String testDifficulty = extras.getString("testDifficulty");
         if ("none".equals(testDifficulty)) {
             applyNewStates(stateChanger.hideProgressBar());
         } else {
+            final MainActivity that = this;
             Thread timer = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -57,7 +59,14 @@ public class MainActivity extends AppCompatActivity {
                                 .computeSecondsLeft(millisLeft, correctAnswers, wrongAnswers, testDifficulty);
                         int secondsLeft = (int)newStates.get(0).getProp("setProgress");
                         if (secondsLeft <= 0) {
-                            throw new RuntimeException("Time up: " + secondsLeft);
+                            Intent startsResults = new Intent(that, ResultsActivity.class);
+                            startsResults.putExtra("gameWon", false);
+                            startsResults.putExtra("correctAnswers", correctAnswers);
+                            startsResults.putExtra("wrongAnswers", wrongAnswers);
+                            startsResults.putExtra("testDifficulty", testDifficulty);
+                            startsResults.putExtra("timePassed", System.currentTimeMillis() - startTime);
+                            startActivity(startsResults);
+                            progressTimerRunning = false;
                         } else if (secondsLeft >= 100) {
                             throw new RuntimeException("Woooohoooo: " + secondsLeft);
                         } else {
@@ -73,12 +82,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
         progressTimerRunning = false;
     }
 
     public void showExercise(View view) {
         generateAndShowNewExercise();
-        showKeyboard();
+        toggleKeyboard();
     }
 
     public void showAnswer(View view) {
@@ -123,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         applyNewStates(newStates);
     }
 
-    private void showKeyboard() {
+    private void toggleKeyboard() {
         answerEditText.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
