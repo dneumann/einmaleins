@@ -1,5 +1,6 @@
 package dn.einmaleins;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -29,6 +30,9 @@ public class ResultsActivity extends AppCompatActivity {
 
         List<State> newStates = stateChanger.showEndResults(gameWon, correct, wrong, timeMillis);
         viewChanger.applyNewStates(newStates, this);
+
+        MediaPlayer gameOver = MediaPlayer.create(this, R.raw.game_over);
+        gameOver.start();
     }
 
 }
