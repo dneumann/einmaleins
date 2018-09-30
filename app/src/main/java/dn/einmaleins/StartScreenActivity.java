@@ -14,8 +14,7 @@ public class StartScreenActivity extends AppCompatActivity {
     }
 
     public void startPractice(View view) {
-        Intent startsMain = new Intent(this, MainActivity.class);
-        startActivity(startsMain);
+        startTest("none");
     }
 
     public void startEasyTest(View view) {

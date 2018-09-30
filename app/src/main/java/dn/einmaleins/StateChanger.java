@@ -46,6 +46,12 @@ public class StateChanger {
         return difficulties.get(testDifficulty).wrongAnswerSeconds;
     }
 
+    public List<State> hideProgressBar() {
+        State pb = State.create("progressBar", ProgressBar.class)
+                .with("setVisibility", View.INVISIBLE);
+        return list(pb);
+    }
+
     public List<State> generateExercise() {
         calc.createNewExercise();
 

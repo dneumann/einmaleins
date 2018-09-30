@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
         showKeyboard();
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            final String testDifficulty = extras.getString("testDifficulty");
+        final String testDifficulty = extras.getString("testDifficulty");
+        if ("none".equals(testDifficulty)) {
+            applyNewStates(stateChanger.hideProgressBar());
+        } else {
             Thread timer = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -80,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showAnswer(View view) {
-        buttonTimer.cancel();
+        if (buttonTimer != null)
+            buttonTimer.cancel();
+
         String enteredAnswer = answerEditText.getText().toString();
 
         List<State> newStates = stateChanger.showAnswer(enteredAnswer);
@@ -97,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void generateAndShowNewExercise() {
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            final String testDifficulty = extras.getString("testDifficulty");
+        final String testDifficulty = extras.getString("testDifficulty");
+        if (!"none".equals(testDifficulty)) {
             int buttonSeconds = stateChangerForButtonTimer.getButtonSeconds(testDifficulty);
             buttonTimer = new CountDownTimer(buttonSeconds * 1000, 1000) {
                 @Override
