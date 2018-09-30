@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         generateAndShowNewExercise();
-        toggleKeyboard();
 
         Bundle extras = getIntent().getExtras();
         final String testDifficulty = extras.getString("testDifficulty");
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showExercise(View view) {
         generateAndShowNewExercise();
-        toggleKeyboard();
+        showKeyboard();
     }
 
     public void showAnswer(View view) {
@@ -134,10 +133,9 @@ public class MainActivity extends AppCompatActivity {
         viewChanger.applyNewStates(newStates, this);
     }
 
-    private void toggleKeyboard() {
-        answerEditText.requestFocus();
+    private void showKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        imm.showSoftInput(answerEditText, InputMethodManager.SHOW_IMPLICIT);
     }
 
     private void hideKeyboard() {
