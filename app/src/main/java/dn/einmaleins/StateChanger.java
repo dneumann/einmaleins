@@ -130,6 +130,18 @@ public class StateChanger {
     }
 
 
+    public List<State> showEndResults(boolean gameWon, int correctAnswers, int wrongAnswers, long timeMillis) {
+        State endResult = State.create("textView_gameResult", TextView.class)
+                .with("setText", gameWon ? "You win!!!" : "Game over");
+        State correct = State.create("textView_correct", TextView.class)
+                .with("setText", "" + correctAnswers);
+        State wrong = State.create("textView_wrong", TextView.class)
+                .with("setText", "" + wrongAnswers);
+        State time = State.create("textView_time", TextView.class)
+                .with("setText", "" + timeMillis / 1000);
+        return list(endResult, correct, wrong, time);
+    }
+
     private List<State> list(State... states) {
         return new ArrayList<>(Arrays.asList(states));
     }

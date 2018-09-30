@@ -6,4 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".ResultsActivity">
 
+    <TextView
+        android:id="@+id/textView_gameResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="TextView"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_correctLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:layout_marginStart="47dp"
+        android:text="Correct answers:"
+        app:layout_constraintBottom_toTopOf="@+id/textView_wrongLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_wrongLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:text="Wrong answers:"
+        app:layout_constraintBottom_toTopOf="@+id/textView_timeLabel"
+        app:layout_constraintStart_toStartOf="@+id/textView_correctLabel" />
+
+    <TextView
+        android:id="@+id/textView_timeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView_wrongLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_correct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="101dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/textView_wrong"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/textView_time"
+        app:layout_constraintStart_toStartOf="@+id/textView_correct" />
+
+    <TextView
+        android:id="@+id/textView_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView_wrong"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
