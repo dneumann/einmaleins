@@ -10,7 +10,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private int correctAnswers = 0;
     private boolean progressTimerRunning = false;
     private CountDownTimer buttonTimer;
+    private ViewChanger viewChanger = new ViewChanger();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         final String testDifficulty = extras.getString("testDifficulty");
         if ("none".equals(testDifficulty)) {
-            applyNewStates(stateChanger.hideProgressBar());
+            viewChanger.applyNewStates(stateChanger.hideProgressBar(), this);
         } else {
-            final MainActivity that = this;
+            final MainActivity referenceToThis = this;
             Thread timer = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                                 .computeSecondsLeft(millisLeft, correctAnswers, wrongAnswers, testDifficulty);
                         int secondsLeft = (int)newStates.get(0).getProp("setProgress");
                         if (secondsLeft <= 0) {
-                            Intent startsResults = new Intent(that, ResultsActivity.class);
+                            Intent startsResults = new Intent(referenceToThis, ResultsActivity.class);
                             startsResults.putExtra("gameWon", false);
                             startsResults.putExtra("correctAnswers", correctAnswers);
                             startsResults.putExtra("wrongAnswers", wrongAnswers);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         } else if (secondsLeft >= 100) {
                             throw new RuntimeException("Woooohoooo: " + secondsLeft);
                         } else {
-                            applyNewStates(newStates);
+                            viewChanger.applyNewStates(newStates, referenceToThis);
                         }
                     }
                 }
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             correctAnswers++;
         else
             wrongAnswers++;
-        applyNewStates(newStates);
+        viewChanger.applyNewStates(newStates, this);
         hideKeyboard();
     }
 
@@ -114,11 +114,12 @@ public class MainActivity extends AppCompatActivity {
         final String testDifficulty = extras.getString("testDifficulty");
         if (!"none".equals(testDifficulty)) {
             int buttonSeconds = stateChangerForButtonTimer.getButtonSeconds(testDifficulty);
+            final MainActivity referenceToThis = this;
             buttonTimer = new CountDownTimer(buttonSeconds * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     List<State> newTimerStates = stateChangerForButtonTimer.computeButtonSecondsLeft((int)millisUntilFinished/1000);
-                    applyNewStates(newTimerStates);
+                    viewChanger.applyNewStates(newTimerStates, referenceToThis);
                 }
 
                 @Override
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             buttonTimer.start();
         }
         List<State> newStates = stateChanger.generateExercise();
-        applyNewStates(newStates);
+        viewChanger.applyNewStates(newStates, this);
     }
 
     private void toggleKeyboard() {
@@ -150,36 +151,6 @@ public class MainActivity extends AppCompatActivity {
                 return s;
         }
         return null;
-    }
-
-    private void applyNewStates(List<State> newStates) {
-        for (State state : newStates) {
-            applyState(state);
-        }
-    }
-
-    private <T extends View> void applyState(State state) {
-        try {
-            T genericView = findViewById(R.id.class.getField(state.id).getInt(null));
-            List<State.Property> viewProperties = state.props;
-            for (State.Property prop : viewProperties) {
-                String methodName = prop.key;
-                Object value = prop.value;
-                Class<T> genericViewClass = state.clazz;
-                Class<?> valueClass;
-                if (value instanceof String) {
-                    valueClass = CharSequence.class;
-                } else if (value instanceof Integer) {
-                    valueClass = int.class;
-                } else {
-                    throw new RuntimeException("Unexpected type of value: " + value.getClass());
-                }
-                genericViewClass.getMethod(methodName, valueClass).invoke(genericView, value);
-            }
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
 }
