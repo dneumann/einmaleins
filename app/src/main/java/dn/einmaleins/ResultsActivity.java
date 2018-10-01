@@ -27,13 +27,26 @@ public class ResultsActivity extends AppCompatActivity {
         viewChanger.applyNewStates(newStates, this);
 
         if (!gameWon) {
-            MediaPlayer gameOver = MediaPlayer.create(this, R.raw.game_over);
-            gameOver.start();
+            startSound(R.raw.game_over);
         } else if (gameWon && "easy".equals(testDifficulty)) {
-            MediaPlayer win = MediaPlayer.create(this, R.raw.win_easy);
-            win.start();
+            startSound(R.raw.win_easy);
+        } else if (gameWon && "normal".equals(testDifficulty)) {
+            startSound(R.raw.win_normal);
+        } else if (gameWon && "hard".equals(testDifficulty)) {
+            int totalSeconds = (int) timeMillis / 1000;
+            boolean extraQuick = totalSeconds <= 2 * 60;
+            if (extraQuick) {
+                startSound(R.raw.win_hard_dirty);
+            } else {
+                startSound(R.raw.win_hard);
+            }
         }
 
+    }
+
+    private void startSound(int soundId) {
+        MediaPlayer sound = MediaPlayer.create(this, soundId);
+        sound.start();
     }
 
 }

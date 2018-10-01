@@ -131,21 +131,32 @@ public class StateChanger {
 
 
     public List<State> showEndResults(boolean gameWon, int correctAnswers, int wrongAnswers, long timeMillis, String testDifficulty) {
+
+        int totalSeconds = (int) timeMillis / 1000;
+        boolean extraQuick = totalSeconds <= 2 * 60;
+        String gameEndMessage = "";
+        if (!gameWon)
+            gameEndMessage = "Game over";
+        else if (gameWon && "hard".equals(testDifficulty) && extraQuick)
+            gameEndMessage = "Damn! You are a cray-zee mothafucka!!!";
+        else
+            gameEndMessage = "You win!!!";
+
         State endResult = State.create("textView_gameResult", TextView.class)
-                .with("setText", gameWon ? "You win!!!" : "Game over");
+                .with("setText", gameEndMessage);
         State correct = State.create("textView_correct", TextView.class)
                 .with("setText", "" + correctAnswers);
         State wrong = State.create("textView_wrong", TextView.class)
                 .with("setText", "" + wrongAnswers);
 
-        int totalSeconds = (int) timeMillis / 1000;
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
+        String secondsString = seconds < 10 ? "0" + seconds : "" + seconds;
         State time = State.create("textView_time", TextView.class)
-                .with("setText", "" + minutes + ":" + seconds);
+                .with("setText", minutes + ":" + secondsString);
 
         int visibilityForHint = View.INVISIBLE;
-        if ("hard".equals(testDifficulty) && totalSeconds > 2 * 60) {
+        if ("hard".equals(testDifficulty) && !extraQuick) {
             visibilityForHint = View.VISIBLE;
         }
         State redHint = State.create("textView_2minutesHint", TextView.class)
