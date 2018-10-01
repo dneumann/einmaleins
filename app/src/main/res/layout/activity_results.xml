@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
         android:layout_marginStart="47dp"
-        android:text="Correct answers:"
+        android:text="Richtige Antworten"
         app:layout_constraintBottom_toTopOf="@+id/textView_wrongLabel"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
-        android:text="Wrong answers:"
+        android:text="Falsche Antworten"
         app:layout_constraintBottom_toTopOf="@+id/textView_timeLabel"
         app:layout_constraintStart_toStartOf="@+id/textView_correctLabel" />
 
@@ -40,7 +40,7 @@
         android:id="@+id/textView_timeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time:"
+        android:text="Zeit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView_wrongLabel"
         app:layout_constraintTop_toTopOf="parent" />
@@ -72,4 +72,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView_wrong"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_2minutesHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Schaffe es in 2:00 für eine dirty Version"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@+id/textView_timeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textView_timeLabel" />
 </android.support.constraint.ConstraintLayout>

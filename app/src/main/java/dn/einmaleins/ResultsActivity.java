@@ -15,11 +15,6 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         Bundle extras = getIntent().getExtras();
         String testDifficulty = extras.getString("testDifficulty");
@@ -28,7 +23,7 @@ public class ResultsActivity extends AppCompatActivity {
         int wrong = extras.getInt("wrongAnswers");
         long timeMillis = extras.getLong("timePassed");
 
-        List<State> newStates = stateChanger.showEndResults(gameWon, correct, wrong, timeMillis);
+        List<State> newStates = stateChanger.showEndResults(gameWon, correct, wrong, timeMillis, testDifficulty);
         viewChanger.applyNewStates(newStates, this);
 
         if (!gameWon) {
@@ -38,6 +33,7 @@ public class ResultsActivity extends AppCompatActivity {
             MediaPlayer win = MediaPlayer.create(this, R.raw.win_easy);
             win.start();
         }
+
     }
 
 }
