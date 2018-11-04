@@ -138,7 +138,7 @@ public class StateChanger {
         if (!gameWon)
             gameEndMessage = "Game over";
         else if (gameWon && "hard".equals(testDifficulty) && extraQuick)
-            gameEndMessage = "Damn!\nYou are a cray-zee mothafucka!!!";
+            gameEndMessage = "You're the best!!!\nYou are a cray-zee motherf***er!";
         else
             gameEndMessage = "You win!!!";
 
